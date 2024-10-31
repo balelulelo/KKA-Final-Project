@@ -23,18 +23,17 @@ Optimizing Shinkansen rail track usage requires efficient search algorithms to e
 ### 1. Dataset
 This dataset provides comprehensive information about the Shinkansen high-speed rail network in Japan, detailing key aspects of each station across various lines. The data spans multiple stations and lines, each with specific attributes such as location, operational history, and company ownership. This allows for a thorough exploration of the Shinkansen's structure, from its geographic distribution across Japanese prefectures to the distances between stations relative to Tokyo, the central hub. By integrating these fields, the dataset supports in-depth analysis and can aid in optimizing search algorithm
 
-#### Station_Name: This column lists the names of each Shinkansen station. It identifies the specific station on a given Shinkansen line and serves as a unique point in any route or search algorithm.
+- Station_Name: This column lists the names of each Shinkansen station. It identifies the specific station on a given Shinkansen line and serves as a unique point in any route or search algorithm.
 
-#### Station_Name: This column lists the names of each Shinkansen station. It identifies the specific station on a given Shinkansen line and serves as a unique point in any route or search algorithm.
-#### Shinkansen_Line: This indicates the specific Shinkansen line (e.g., Tokaido_Shinkansen) on which the station is located. Shinkansen lines often serve different regions and have unique stops, so this column helps differentiate routes when analyzing the network.
+- Shinkansen_Line: This indicates the specific Shinkansen line (e.g., Tokaido_Shinkansen) on which the station is located. Shinkansen lines often serve different regions and have unique stops, so this column helps differentiate routes when analyzing the network.
 
-#### Year: This column shows the year each station was opened. It could be useful for historical analysis, for example, to see how the Shinkansen network has expanded over time. When used with algorithms, it could also help simulate network progression.
+- Year: This column shows the year each station was opened. It could be useful for historical analysis, for example, to see how the Shinkansen network has expanded over time. When used with algorithms, it could also help simulate network progression.
 
-#### Prefecture: This specifies the Japanese prefecture where each station is located. It helps in understanding the geographical distribution of stations across Japan and can be useful if routes or search algorithms are organized by regional constraints.
+- Prefecture: This specifies the Japanese prefecture where each station is located. It helps in understanding the geographical distribution of stations across Japan and can be useful if routes or search algorithms are organized by regional constraints.
 
-#### Distance from Tokyo st: This represents the distance of each station from Tokyo Station, measured in kilometers. This column is valuable for search algorithms as it can act as a heuristic measure, especially in Best First Search, to determine proximity to Tokyo or prioritize closer stations.
+- Distance from Tokyo st: This represents the distance of each station from Tokyo Station, measured in kilometers. This column is valuable for search algorithms as it can act as a heuristic measure, especially in Best First Search, to determine proximity to Tokyo or prioritize closer stations.
 
-#### Company: This indicates the company that operates each station. In Japan, different segments of the Shinkansen network are operated by different companies (e.g., JR Central). This could be relevant for financial or operational analysis, or for understanding corporate boundaries within the network.
+- Company: This indicates the company that operates each station. In Japan, different segments of the Shinkansen network are operated by different companies (e.g., JR Central). This could be relevant for financial or operational analysis, or for understanding corporate boundaries within the network.
 
 ### 2. Code Explanation
 
