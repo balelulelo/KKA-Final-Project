@@ -9,3 +9,7 @@ Group members:
 | Muhammad Iqbal Shafarel      | 5025231080     |
 | Ali Ridho      | 5025231162     |
 | Faiz Adli Nugraha     | 5025231174    |
+
+## A. Introduction
+
+## B. Progress
