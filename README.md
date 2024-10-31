@@ -31,9 +31,9 @@ import pandas as pd
 import heapq
 from collections import deque
 ```
-`pandas`: Used to handle CSV data for loading from a file.
-`heapq`: Provides priority queue functionality essential for the `Best-First Search` and `A* Search algorithms`.
-`deque`: Used for efficiently implementing the `queue structure` required for `Breadth-First Search`.
+- `pandas`: Used to handle CSV data for loading from a file.
+- `heapq`: Provides priority queue functionality essential for the `Best-First Search` and `A* Search algorithms`.
+- `deque`: Used for efficiently implementing the `queue structure` required for `Breadth-First Search`.
 
 #### 2b. Graph Initialization
 ```python
