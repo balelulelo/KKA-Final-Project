@@ -75,40 +75,35 @@ class Graph:
 
         return None
 
-# Membaca data dari CSV
 def load_shinkansen_data(filename):
     data = pd.read_csv(filename)
     graph = Graph()
 
-    # Membuat edge berdasarkan jarak antar stasiun
     for i in range(len(data) - 1):
         start_station = data.iloc[i]['Station_Name']
         end_station = data.iloc[i + 1]['Station_Name']
         distance = abs(data.iloc[i + 1]['Distance from Tokyo st'] - data.iloc[i]['Distance from Tokyo st'])
 
         graph.add_edge(start_station, end_station, distance)
-        graph.add_edge(end_station, start_station, distance)  # Assuming bidirectional travel
+        graph.add_edge(end_station, start_station, distance)
 
-    # Menambahkan heuristik (Distance from Tokyo st)
     for index, row in data.iterrows():
         graph.set_heuristic(row['Station_Name'], row['Distance from Tokyo st'])
 
     return graph
 
-# Load graph dari CSV
 filename = r"C:\Users\LENOVO\Codes in general\Kuliah di ITS\SMT 3\KKA\FP\shinkansen.csv"
+# sesuaikan ini sama lokasi folder kalian, ini kode ngetest di laptop ku (iqbal) tadi
+
 graph = load_shinkansen_data(filename)
 
-# Meminta input dari pengguna
-start = input("Masukkan stasiun awal: ")  # Ganti dengan stasiun awal
-goal = input("Masukkan stasiun tujuan: ")  # Ganti dengan stasiun tujuan
+start = input("Masukkan stasiun awal: ")  
+goal = input("Masukkan stasiun tujuan: ") 
 
-# Menjalankan pencarian
 best_first_path = graph.best_first_search(start, goal)
 bfs_path = graph.bfs(start, goal)
 a_star_path = graph.a_star(start, goal)
 
-# Menampilkan hasil dengan format yang diinginkan
 def display_route(route):
     if route:
         print(" -> ".join(route))
