@@ -150,3 +150,13 @@ def display_route(route):
 - If no route is found, outputs `"Rute tidak ditemukan."`
 
 ### 3. Result
+
+![image](https://github.com/user-attachments/assets/8fb3d2a3-3ae9-42a9-a35d-b5d9cbd261e8)
+
+Best First Search : This method uses a heuristic approach to find the route that seems closest to the destination based on the shortest distance or certain priorities. This is a very long and winding route. The search seems to have prioritized certain larger stations, leading the path far south before it eventually redirects back north to reach Morioka. This is a less efficient route with many extra stops, including major cities like Nagoya, Kyoto, Shin-Osaka, Hakata, and Sendai. It shows how Best First Search can sometimes yield suboptimal routes due to its heavy reliance on heuristic guidance.
+
+BFS : BFS, which does not rely on heuristics, naturally discovers the shortest path in terms of the number of stations to traverse. This route is much more direct and stays mostly on the Tohoku Shinkansen line, which is the direct line connecting Tokyo to Morioka. This route explores fewer stations overall and avoids the southern stations completely, following a logical northward progression from Tokyo to Morioka. BFS guarantees a route with a minimum number of steps, but it is not always the shortest route in terms of distance.
+
+A* Search : A* Search is a search method that combines the advantages of BFS and the heuristics in Best First Search. This algorithm considers the total distance from the starting point to the destination and selects a move that optimizes the overall path. The route it took is identical to the BFS route, because we haven't added the cost in the dataset yet. A* optimally balanced path cost and heuristic to yield a direct path similar to the BFS approach, using only the necessary intermediate stations along the Tohoku Shinkansen line without deviating to southern or distant stations. 
+
+Overall, these results indicate that BFS and A* Search provide more efficient routes than Best First Search in this case, especially because they produce fewer intermediate stations to reach the destination in Morioka.
