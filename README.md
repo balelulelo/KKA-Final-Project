@@ -21,7 +21,130 @@ Optimizing Shinkansen rail track usage requires efficient search algorithms to e
 ## B. Progress
 
 ### 1. Dataset
-
+###
 ### 2. Code Explanation
+
+#### 2a. Calling All Libraries
+
+```python
+import pandas as pd
+import heapq
+from collections import deque
+```
+`pandas`: Used to handle CSV data for loading station details and distances from a file.
+`heapq`: Provides priority queue functionality essential for the Best-First Search and A* Search algorithms.
+`deque`: Used for efficiently implementing the queue structure required for Breadth-First Search.
+
+#### 2b. Graph Initialization
+```python
+class Graph:
+    def __init__(self):
+        self.graph = {}
+        self.heuristics = {}
+```
+- `Graph`: A class representing the railway network.
+graph: A dictionary to store each station and its connections with other stations.
+- `heuristics`: A dictionary storing heuristic values for each station, such as its distance from Tokyo.
+
+#### 2c. Function to Add an Edge
+```python
+def add_edge(self, start, end, cost):
+    if start not in self.graph:
+        self.graph[start] = []
+    self.graph[start].append((end, cost))
+```
+- `add_edge`: Adds a route between two stations with a specified travel cost (distance).
+- `start`: The originating station.
+- `end`: The destination station.
+- `cost`: The travel cost (distance) between the stations.
+- Checks if the start station is already in the `graph`. If not, initializes an empty list for it.
+- Adds the destination station (end) and cost as a tuple to the start station’s adjacency list.
+
+#### 2d. Setting the Heuristic Function
+```python
+def set_heuristic(self, node, value):
+    self.heuristics[node] = value
+```
+- `set_heuristic`: Sets the heuristic value for a station (node).
+- This function supports the `Best-First` and `A* algorithms` by assigning `heuristic values` for better prioritization based on proximity to the goal.
+
+#### 2e. How Best-First Search Works
+```python
+def best_first_search(self, start, goal):
+    open_list = []
+    heapq.heappush(open_list, (self.heuristics[start], start))
+    closed_list = set()
+    path = []
+```
+- `best_first_search`: Uses a priority queue (heap) to explore nodes with the smallest heuristic values first.
+- `open_list`: Holds stations to explore, prioritized by heuristic values.
+- `closed_list`: Tracks visited stations to prevent re-exploration.
+- If the current station matches the goal, the function returns the path.
+Otherwise, it examines neighboring stations and adds them to `open_list` if they aren’t in `closed_list`.
+
+#### 2f. How Breadth-First Search (BFS) Works
+```python
+def bfs(self, start, goal):
+    queue = deque([(start, [start])])
+    visited = set([start])
+```    
+- `bfs`: Uses a deque to implement a traditional BFS algorithm.
+- `queue`: Holds each station with its path taken so far.
+- `visited`: Tracks visited stations to avoid revisiting them.
+- Returns the path if the goal is found, otherwise, explores all neighbors.
+
+#### 2g. A* Search Algorithm
+```python
+def a_star(self, start, goal):
+    open_list = []
+    heapq.heappush(open_list, (0 + self.heuristics[start], start, [start]))
+    g_costs = {start: 0}
+```
+- `a_star`: Combines g_cost (cost from the start) and heuristics (estimated cost to the goal).
+- `g_costs`: A dictionary tracking the cost from the start to each station.
+- `open_list`: Priority queue containing stations and their calculated `f_cost` (combined `g_cost` and `heuristic`).
+- When the goal station is found, the function returns the path, guaranteeing the shortest route due to its optimal cost evaluation.
+
+#### 2h. How BFS Function Works
+```python
+def bfs(self, start, goal):
+    queue = deque([(start, [start])])
+    visited = set([start])
+```
+- BFS is a broad exploration algorithm that searches level by level, ideal for finding the shortest unweighted path.
+- Starts from the start station and explores each level completely before moving deeper.
+- If it finds the goal station, it returns the path.
+
+#### 2i. How A* Function Works
+```python
+def a_star(self, start, goal):
+    open_list = []
+    heapq.heappush(open_list, (0 + self.heuristics[start], start, [start]))
+    g_costs = {start: 0}
+```
+- `A*` finds the shortest weighted path from start to goal, factoring both travel cost and heuristic value.
+- `open_list`: A priority queue containing stations and their calculated f_cost.
+- The function returns the path once goal is reached, ensuring the shortest route due to its optimal cost evaluation.
+
+#### 2j. Function to Load Shinkansen Data
+```python
+def load_shinkansen_data(filename):
+    data = pd.read_csv(filename)
+    graph = Graph()
+```
+- `load_shinkansen_data`: Reads station data from a CSV file and initializes the Graph.
+- For each station, adds bidirectional routes based on distance. Sets heuristic values (distance from Tokyo) for each station, supporting Best-First and A* searches.
+
+#### 2k. Function to Display the Route
+```python
+def display_route(route):
+    if route:
+        print(" -> ".join(route))
+    else:
+        print("Rute tidak ditemukan.")
+```
+- `display_route`: Prints the path from start to goal.
+- Joins each station in route with arrows `(->)`` for readability.
+- If no route is found, outputs `"Rute tidak ditemukan."`
 
 ### 3. Result
