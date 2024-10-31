@@ -27,8 +27,7 @@ This dataset provides comprehensive information about the Shinkansen high-speed 
 
 - Shinkansen_Line: This indicates the specific Shinkansen line (e.g., Tokaido_Shinkansen) on which the station is located. Shinkansen lines often serve different regions and have unique stops, so this column helps differentiate routes when analyzing the network.
 
-- Year: This column shows the year each station was opened. It could be useful for historical analysis, for example, to see how the Shinkansen network has expanded over time. When used with algorithms, it could also help simulate network progression.
-
+- Year: This column shows the year each station was opened. It could be useful for historical analysis, for example, to see how the Shinkansen network has expanded over time
 - Prefecture: This specifies the Japanese prefecture where each station is located. It helps in understanding the geographical distribution of stations across Japan and can be useful if routes or search algorithms are organized by regional constraints.
 
 - Distance from Tokyo st: This represents the distance of each station from Tokyo Station, measured in kilometers. This column is valuable for search algorithms as it can act as a heuristic measure, especially in Best First Search, to determine proximity to Tokyo or prioritize closer stations.
