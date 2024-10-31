@@ -21,7 +21,7 @@ Optimizing Shinkansen rail track usage requires efficient search algorithms to e
 ## B. Progress
 
 ### 1. Dataset
-This dataset provides comprehensive information about the Shinkansen high-speed rail network in Japan, detailing key aspects of each station across various lines. The data spans multiple stations and lines, each with specific attributes such as location, operational history, and company ownership. This allows for a thorough exploration of the Shinkansen's structure, from its geographic distribution across Japanese prefectures to the distances between stations relative to Tokyo, the central hub. By integrating these fields, the dataset supports in-depth analysis and can aid in optimizing search algorithm
+This dataset provides comprehensive information about the Shinkansen high-speed rail network in Japan, detailing key aspects of each station across various lines. The data spans multiple stations and lines, each with specific attributes such as location, operational history, and company ownership. This allows for a thorough exploration of the Shinkansen's structure, from its geographic distribution across Japanese prefectures to the distances between stations relative to Tokyo, the central hub. By integrating these fields, the dataset supports in-depth analysis and can aid in optimizing search algorithms
 
 - Station_Name: This column lists the names of each Shinkansen station. It identifies the specific station on a given Shinkansen line and serves as a unique point in any route or search algorithm.
 
