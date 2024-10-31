@@ -31,9 +31,9 @@ import pandas as pd
 import heapq
 from collections import deque
 ```
-`pandas`: Used to handle CSV data for loading station details and distances from a file.
-`heapq`: Provides priority queue functionality essential for the Best-First Search and A* Search algorithms.
-`deque`: Used for efficiently implementing the queue structure required for Breadth-First Search.
+`pandas`: Used to handle CSV data for loading from a file.
+`heapq`: Provides priority queue functionality essential for the `Best-First Search` and `A* Search algorithms`.
+`deque`: Used for efficiently implementing the `queue structure` required for `Breadth-First Search`.
 
 #### 2b. Graph Initialization
 ```python
@@ -43,8 +43,8 @@ class Graph:
         self.heuristics = {}
 ```
 - `Graph`: A class representing the railway network.
-graph: A dictionary to store each station and its connections with other stations.
-- `heuristics`: A dictionary storing heuristic values for each station, such as its distance from Tokyo.
+- `graph`: store each station and its connections with other stations.
+- `heuristics`: storing heuristic values for each station, such as its distance from Tokyo.
 
 #### 2c. Function to Add an Edge
 ```python
@@ -66,7 +66,7 @@ def set_heuristic(self, node, value):
     self.heuristics[node] = value
 ```
 - `set_heuristic`: Sets the heuristic value for a station (node).
-- This function supports the `Best-First` and `A* algorithms` by assigning `heuristic values` for better prioritization based on proximity to the goal.
+- This function use for `Best-First` and `A* algorithms` by assigning `heuristic values` for better prioritization based on proximity to the goal.
 
 #### 2e. How Best-First Search Works
 ```python
@@ -82,18 +82,19 @@ def best_first_search(self, start, goal):
 - If the current station matches the goal, the function returns the path.
 Otherwise, it examines neighboring stations and adds them to `open_list` if they aren’t in `closed_list`.
 
-#### 2f. How Breadth-First Search (BFS) Works
+#### 2f. How Breadth-First Search (BFS) Works (Not Optimal Yet)
 ```python
 def bfs(self, start, goal):
     queue = deque([(start, [start])])
     visited = set([start])
 ```    
-- `bfs`: Uses a deque to implement a traditional BFS algorithm.
+- `bfs`: Uses a deque to implement BFS algorithm.
 - `queue`: Holds each station with its path taken so far.
 - `visited`: Tracks visited stations to avoid revisiting them.
 - Returns the path if the goal is found, otherwise, explores all neighbors.
+- This function are still not optimal because there is not cost for each route databases.
 
-#### 2g. A* Search Algorithm
+#### 2g. A* Search Algorithm (Not Optimal Yet)
 ```python
 def a_star(self, start, goal):
     open_list = []
@@ -101,9 +102,10 @@ def a_star(self, start, goal):
     g_costs = {start: 0}
 ```
 - `a_star`: Combines g_cost (cost from the start) and heuristics (estimated cost to the goal).
-- `g_costs`: A dictionary tracking the cost from the start to each station.
+- `g_costs`: tracking the cost from the start to each station.
 - `open_list`: Priority queue containing stations and their calculated `f_cost` (combined `g_cost` and `heuristic`).
 - When the goal station is found, the function returns the path, guaranteeing the shortest route due to its optimal cost evaluation.
+- Same with Best First Search, this function are not optimal because there is not cost for each route databases.
 
 #### 2h. How BFS Function Works
 ```python
@@ -111,7 +113,7 @@ def bfs(self, start, goal):
     queue = deque([(start, [start])])
     visited = set([start])
 ```
-- BFS is a broad exploration algorithm that searches level by level, ideal for finding the shortest unweighted path.
+- Searches level by level, for finding the shortest unweighted path.
 - Starts from the start station and explores each level completely before moving deeper.
 - If it finds the goal station, it returns the path.
 
@@ -133,7 +135,7 @@ def load_shinkansen_data(filename):
     graph = Graph()
 ```
 - `load_shinkansen_data`: Reads station data from a CSV file and initializes the Graph.
-- For each station, adds bidirectional routes based on distance. Sets heuristic values (distance from Tokyo) for each station, supporting Best-First and A* searches.
+- For each station, adds bidirectional routes based on distance. Sets heuristic values (distance from Tokyo) for each station.
 
 #### 2k. Function to Display the Route
 ```python
@@ -144,7 +146,7 @@ def display_route(route):
         print("Rute tidak ditemukan.")
 ```
 - `display_route`: Prints the path from start to goal.
-- Joins each station in route with arrows `(->)`` for readability.
+- Joins each station in route with arrows `(->)`` for better direction readability.
 - If no route is found, outputs `"Rute tidak ditemukan."`
 
 ### 3. Result
