@@ -1,4 +1,4 @@
-Source_Stations,Shinkansen_Line,Destination_Stations,Distance,Cost_(Yen),Durations_(Min),Line
+Source_Stations,Shinkansen_Line,Destination_Stations,Distance_(Km),Cost_(Yen),Durations_(Min),Line
 Tokyo,Hokuriku_Shinkansen,Ueno,3.7,1050,5,Asama
 Ueno,Hokuriku_Shinkansen,Omiya,27.7,1370,18,Asama
 Omiya,Hokuriku_Shinkansen,Takasaki,74.8,3210,26,Asama
