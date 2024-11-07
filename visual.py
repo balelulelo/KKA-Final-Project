@@ -105,7 +105,7 @@ custom_positions = {
     "Urasa": (-4, 6.5),
     "Nagaoka": (-4, 7),
     "Tsubame-Sanjo": (-4, 7.5),
-    "Niigata": (-4, 9),*
+    "Niigata": (-4, 9),
 }
 
 
