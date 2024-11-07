@@ -20,7 +20,7 @@ Tokyo,Tohoku_Shinkansen,Ueno,3.7,1050,5,Hayabusa
 Ueno,Tohoku_Shinkansen,Omiya,26.7,1370,17,Hayabusa
 Sendai,Tohoku_Shinkansen,Furukawa,38.6,1650,12,Hayabusa
 Furukawa,Tohoku_Shinkansen,Kurikoma-Kogen,21.7,1300,8,Hayabusa
-Kurima-Kogen,Tohoku_Shinkansen,Ichinoseki,20.7,1390,9,Hayabusa
+Kurikoma-Kogen,Tohoku_Shinkansen,Ichinoseki,20.7,1390,9,Hayabusa
 Ichinoseki,Tohoku_Shinkansen,Mizusawa-Esashi,25.1,1300,9,Hayabusa
 Mizusawa-Esashi,Tohoku_Shinkansen,Kitakami,17.3,1210,7,Hayabusa
 Kitakami,Tohoku_Shinkansen,Shin-Hanamaki,14.5,1120,7,Hayabusa
@@ -70,7 +70,7 @@ Ueno,Tohoku_Shinkansen,Omiya,26.7,1370,18,Nasuno
 Omiya,Tohoku_Shinkansen,Oyama,48.9,1990,15,Nasuno
 Oyama,Tohoku_Shinkansen,Utsunomiya,28.9,1390,11,Nasuno
 Utsunomiya,Tohoku_Shinkansen,Nasu-Shiobara,43.4,3210,27,Nasuno
-Nasu-Shiobora,Tohoku_Shinkansen,Shin-Shirakawa,22,1390,10,Nasuno
+Nasu-Shiobara,Tohoku_Shinkansen,Shin-Shirakawa,22,1390,10,Nasuno
 Shin-Shirakawa,Tohoku_Shinkansen,Koriyama,35.7,3040,22,Nasuno
 Shin-Yokohama,Tokaido_Shinkansen,Nagoya,316.2,9900,76,Nozomi
 Shin-Yokohama,Tokaido_Shinkansen,Kyoto,450.7,12650,116,Nozomi
@@ -123,7 +123,7 @@ Koriyama,Tohoku_Shinkansen,Fukushima,41.4,1740,13,Yamabiko
 Fukushima,Tohoku_Shinkansen,Sendai,70.3,3210,26,Yamabiko
 Sendai,Tohoku_Shinkansen,Furukawa,38.6,1650,13,Yamabiko
 Furukawa,Tohoku_Shinkansen,Kurikoma-Kogen,21.7,1300,9,Yamabiko
-Kurima-Kogen,Tohoku_Shinkansen,Ichinoseki,20.7,1390,8,Yamabiko
+Kurikoma-Kogen,Tohoku_Shinkansen,Ichinoseki,20.7,1390,8,Yamabiko
 Ichinoseki,Tohoku_Shinkansen,Mizusawa-Esashi,25.1,1300,9,Yamabiko
 Mizusawa-Esashi,Tohoku_Shinkansen,Kitakami,17.3,1210,8,Yamabiko
 Kitakami,Tohoku_Shinkansen,Shin-Hanamaki,14.5,1120,7,Yamabiko
