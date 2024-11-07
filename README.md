@@ -227,37 +227,6 @@ print("We wish you a safe journey!")
 After gathering user input and running each of the search functions (Best-First Search, BFS, A*, and Least Transits Search), the program displays the results for each search method. For each method:
 - If a route is found, it prints the `path` (sequence of stations), `lines` (sequence of lines used), `total_distance` (in kilometers), `total_cost` (in yen), `total_duration` (in minutes), and `transit_count` (number of line changes).
 - If no route is found, it outputs a message indicating that a route could not be determined.
-#### 2i. How A* Function Works
-```python
-def a_star(self, start, goal):
-    open_list = []
-    heapq.heappush(open_list, (0 + self.heuristics[start], start, [start]))
-    g_costs = {start: 0}
-```
-- `A*` finds the shortest weighted path from start to goal, factoring both travel cost and heuristic value.
-- `open_list`: A priority queue containing stations and their calculated f_cost.
-- The function returns the path once goal is reached, ensuring the shortest route due to its optimal cost evaluation.
-
-#### 2j. Function to Load Shinkansen Data
-```python
-def load_shinkansen_data(filename):
-    data = pd.read_csv(filename)
-    graph = Graph()
-```
-- `load_shinkansen_data`: Reads station data from a CSV file and initializes the Graph.
-- For each station, adds bidirectional routes based on distance. Sets heuristic values (distance from Tokyo) for each station.
-
-#### 2k. Function to Display the Route
-```python
-def display_route(route):
-    if route:
-        print(" -> ".join(route))
-    else:
-        print("Rute tidak ditemukan.")
-```
-- `display_route`: Prints the path from start to goal.
-- Joins each station in route with arrows `(->)`` for better direction readability.
-- If no route is found, outputs `"Rute tidak ditemukan."`
 
 ### 3. Result
 
