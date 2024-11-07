@@ -120,17 +120,30 @@ def bfs(graph, start, goal):
 ```
 The `bfs` function uses a queue to explore paths from the starting station to the destination, focusing on finding the shortest number of steps. Each element in the queue is a tuple of `(station, path, lines, total_distance, total_cost, total_duration, transit_count)`. `station` is the current station, `path` is the list of stations in the route, `lines` contains the lines used, `total_distance` accumulates the distance traveled, `total_cost` stores the total yen cost, `total_duration` tracks the time in minutes, and `transit_count` records line changes. When a line change is encountered, it’s added to `new_lines`, and `new_transit_count` is updated. This search is efficient for finding the shortest sequence of stations.
 
-#### 2f. How Breadth-First Search (BFS) Works (Not Optimal Yet)
+#### 2f. A* Search
 ```python
-def bfs(self, start, goal):
-    queue = deque([(start, [start])])
-    visited = set([start])
+def a_star_search(graph, start, goal):
+    queue = [(0, start, [start], [], 0, 0, 0, 0)]  # (heuristic distance, station, path, lines, total_distance, total_cost, total_duration, transit_count)
+    visited = set()
+    while queue:
+        _, current, path, lines, total_distance, total_cost, total_duration, transit_count = heapq.heappop(queue)
+        if current == goal:
+            return path, lines, total_distance, total_cost, total_duration, transit_count
+        if current not in visited:
+            visited.add(current)
+            for neighbor, line, dist, cost, dur in graph[current]:
+                if neighbor not in visited:
+                    heuristic = dist  # Distance as heuristic
+                    new_transit_count = transit_count
+                    new_lines = lines.copy()
+                    # Only add line if it's different from the previous line
+                    if not lines or lines[-1] != line:
+                        new_lines.append(line)
+                        new_transit_count += 1 if lines else 0  # Count transit if there's a previous line
+                    heapq.heappush(queue, (total_distance + heuristic, neighbor, path + [neighbor], new_lines, total_distance + dist, total_cost + cost, total_duration + dur, new_transit_count))
+    return None, None, None, None, None, None
 ```    
-- `bfs`: Uses a deque to implement BFS algorithm.
-- `queue`: Holds each station with its path taken so far.
-- `visited`: Tracks visited stations to avoid revisiting them.
-- Returns the path if the goal is found, otherwise, explores all neighbors.
-- This function are still not optimal because there is not cost for each route databases.
+The `a_star_search` function uses an A* search algorithm with distance-based heuristics to prioritize routes. It uses a priority queue where each tuple includes `(heuristic distance, station, path, lines, total_distance, total_cost, total_duration, transit_count)`. The `heuristic distance` is based on the neighbor distance to prioritize paths, while `station` is the current location, `path` is the visited sequence of stations, `lines` tracks the lines taken, `total_distance` accumulates the distance, `total_cost` is the yen cost, `total_duration` tracks time, and `transit_count` records the number of line changes. If a new line is encountered, it’s added to `new_lines`, and `new_transit_count` is incremented. This function balances minimizing both distance and line changes.
 
 #### 2g. A* Search Algorithm (Not Optimal Yet)
 ```python
