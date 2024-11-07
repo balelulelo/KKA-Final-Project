@@ -95,7 +95,7 @@ def best_first_search(graph, start, goal):
                     heapq.heappush(queue, (dist, neighbor, path + [neighbor], new_lines, total_distance + dist, total_cost + cost, total_duration + dur, new_transit_count))
     return None, None, None, None, None, None
 ```
-This function implements a Best-First Search that prioritizes routes with the shortest distances, using a priority queue to select routes with minimal cost in each iteration. It also keeps track of visited nodes and counts transits, updating the lines list only when a new line is encountered. The search returns details of the optimal path, including total distance, cost, duration, and the number of line transfers required.
+In the best_first_search function, a priority queue `queue` is used to implement the search, where each entry is a tuple of the format `(heuristic distance, station, path, lines, total_distance, total_cost, total_duration, transit_count)`. The `heuristic distance` helps prioritize stations closer to the goal. `station` is the current location, `path` is the sequence of stations visited, `lines` is the list of lines taken, `total_distance` is the cumulative distance, `total_cost` is the cumulative yen cost, `total_duration` is the travel time, and `transit_count` keeps track of line changes. For each neighbor, if the line is new, it’s added to `new_lines`, and `new_transit_count` is incremented if there’s a previous line. The function returns the optimal path with details if the goal is reached.
 
 #### 2e. How Best-First Search Works
 ```python
