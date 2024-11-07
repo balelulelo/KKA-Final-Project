@@ -61,17 +61,33 @@ The code begins by loading data from `shinkansen.csv`, a dataset containing deta
 
 #### 2b. Least Transit Search
 ```python
-def add_edge(self, start, end, cost):
-    if start not in self.graph:
-        self.graph[start] = []
-    self.graph[start].append((end, cost))
+def least_transits_search(graph, start, goal):
+    queue = deque([(start, [start], [], 0)])  # (station, path, lines, transit_count)
+    visited = set([(start, None)])  # Track visited stations with previous line to avoid redundant paths
+    
+    while queue:
+        current, path, lines, transit_count = queue.popleft()
+        
+        if current == goal:
+            return path, lines, transit_count  # Return path, distinct lines, and transit count
+        
+        for neighbor, line, _, _, _ in graph[current]:
+            # Ensure we only visit each station with a specific line once
+            if (neighbor, line) not in visited:
+                visited.add((neighbor, line))
+                new_lines = lines.copy()
+                new_transit_count = transit_count
+                
+                # Only add the line if it's different from the previous line
+                if not lines or lines[-1] != line:
+                    new_lines.append(line)
+                    new_transit_count += 1 if lines else 0  # Increment transit only if there's a previous line
+                
+                queue.append((neighbor, path + [neighbor], new_lines, new_transit_count))
+    
+    return None, None, None  # Return None if no route is found
 ```
-- `add_edge`: Adds a route between two stations with a specified travel cost (distance).
-- `start`: The originating station.
-- `end`: The destination station.
-- `cost`: The travel cost (distance) between the stations.
-- Checks if the start station is already in the `graph`. If not, initializes an empty list for it.
-- Adds the destination station (end) and cost as a tuple to the start station’s adjacency list.
+This function `least_transits_search` aims to find a route between two stations with the fewest line changes, using a Breadth-First Search (BFS) approach. It initializes queue as a deque containing tuples of the format `(station, path, lines, transit_count)`, where `station` is the current station, `path` is the list of stations visited, `lines` is a list of lines taken, and `transit_count` is the number of line changes so far. `visited` is a set that tracks each station and line combination visited to prevent redundant visits. For each neighbor, if the line changes, it increments `transit_count` and adds the line to `new_lines`. When the `destination` is reached, the function returns the `path`, `lines`, and `transit_count`.
 
 #### 2c. Best First Search
 ```python
@@ -120,7 +136,7 @@ def bfs(graph, start, goal):
 ```
 The `bfs` function uses a queue to explore paths from the starting station to the destination, focusing on finding the shortest number of steps. Each element in the queue is a tuple of `(station, path, lines, total_distance, total_cost, total_duration, transit_count)`. `station` is the current station, `path` is the list of stations in the route, `lines` contains the lines used, `total_distance` accumulates the distance traveled, `total_cost` stores the total yen cost, `total_duration` tracks the time in minutes, and `transit_count` records line changes. When a line change is encountered, it’s added to `new_lines`, and `new_transit_count` is updated. This search is efficient for finding the shortest sequence of stations.
 
-#### 2f. A* Search
+#### 2e. A* Search
 ```python
 def a_star_search(graph, start, goal):
     queue = [(0, start, [start], [], 0, 0, 0, 0)]  # (heuristic distance, station, path, lines, total_distance, total_cost, total_duration, transit_count)
@@ -145,7 +161,7 @@ def a_star_search(graph, start, goal):
 ```    
 The `a_star_search` function uses an A* search algorithm with distance-based heuristics to prioritize routes. It uses a priority queue where each tuple includes `(heuristic distance, station, path, lines, total_distance, total_cost, total_duration, transit_count)`. The `heuristic distance` is based on the neighbor distance to prioritize paths, while `station` is the current location, `path` is the visited sequence of stations, `lines` tracks the lines taken, `total_distance` accumulates the distance, `total_cost` is the yen cost, `total_duration` tracks time, and `transit_count` records the number of line changes. If a new line is encountered, it’s added to `new_lines`, and `new_transit_count` is incremented. This function balances minimizing both distance and line changes.
 
-#### 2g. A* Search Algorithm (Not Optimal Yet)
+#### 2f. User Input and Display of Results
 ```python
 def a_star(self, start, goal):
     open_list = []
