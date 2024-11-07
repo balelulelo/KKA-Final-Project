@@ -73,13 +73,29 @@ def add_edge(self, start, end, cost):
 - Checks if the start station is already in the `graph`. If not, initializes an empty list for it.
 - Adds the destination station (end) and cost as a tuple to the start station’s adjacency list.
 
-#### 2d. Setting the Heuristic Function
+#### 2c. Best First Search
 ```python
-def set_heuristic(self, node, value):
-    self.heuristics[node] = value
+def best_first_search(graph, start, goal):
+    queue = [(0, start, [start], [], 0, 0, 0, 0)]  # (heuristic distance, station, path, lines, total_distance, total_cost, total_duration, transit_count)
+    visited = set()
+    while queue:
+        _, current, path, lines, total_distance, total_cost, total_duration, transit_count = heapq.heappop(queue)
+        if current == goal:
+            return path, lines, total_distance, total_cost, total_duration, transit_count
+        if current not in visited:
+            visited.add(current)
+            for neighbor, line, dist, cost, dur in graph[current]:
+                if neighbor not in visited:
+                    new_transit_count = transit_count
+                    new_lines = lines.copy()
+                    # Only add line if it's different from the previous line
+                    if not lines or lines[-1] != line:
+                        new_lines.append(line)
+                        new_transit_count += 1 if lines else 0  # Count transit if there's a previous line
+                    heapq.heappush(queue, (dist, neighbor, path + [neighbor], new_lines, total_distance + dist, total_cost + cost, total_duration + dur, new_transit_count))
+    return None, None, None, None, None, None
 ```
-- `set_heuristic`: Sets the heuristic value for a station (node).
-- This function use for `Best-First` and `A* algorithms` by assigning `heuristic values` for better prioritization based on proximity to the goal.
+This function implements a Best-First Search that prioritizes routes with the shortest distances, using a priority queue to select routes with minimal cost in each iteration. It also keeps track of visited nodes and counts transits, updating the lines list only when a new line is encountered. The search returns details of the optimal path, including total distance, cost, duration, and the number of line transfers required.
 
 #### 2e. How Best-First Search Works
 ```python
