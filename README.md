@@ -21,18 +21,27 @@ Optimizing Shinkansen rail track usage requires efficient search algorithms to e
 ## B. Progress
 
 ### 1. Dataset
-This dataset provides comprehensive information about the Shinkansen high-speed rail network in Japan, detailing key aspects of each station across various lines. The data spans multiple stations and lines, each with specific attributes such as location, operational history, and company ownership. This allows for a thorough exploration of the Shinkansen's structure, from its geographic distribution across Japanese prefectures to the distances between stations relative to Tokyo, the central hub. By integrating these fields, the dataset supports in-depth analysis and can aid in optimizing search algorithms
+This dataset provides information about some of the Shinkansen high-speed rail network in Japan, detailing aspects of each station across various lines. The data spans multiple stations and lines, each with specific attributes such as the distance, fare, and duration of the travel. It supports various analyses, such as determining the most efficient routes, assessing travel costs for different distances, and examining the infrastructure's role in connecting key regions and cities in Japan. This data can be used by travelers, researchers, and transit planners to optimize travel experience, pricing strategies, and regional accessibility across the Shinkansen network.
 
-- Station_Name: This column lists the names of each Shinkansen station. It identifies the specific station on a given Shinkansen line and serves as a unique point in any route or search algorithm.
+- Source_Station:This column lists the departure station for each segment, which is the station where passengers would board the Shinkansen. Japan's Shinkansen network covers a vast number of stations, and each station serves as either a stop, origin, or destination depending on the route and segment.
 
 - Shinkansen_Line: This indicates the specific Shinkansen line (e.g., Tokaido_Shinkansen) on which the station is located. Shinkansen lines often serve different regions and have unique stops, so this column helps differentiate routes when analyzing the network.
 
-- Year: This column shows the year each station was opened. It could be useful for historical analysis, for example, to see how the Shinkansen network has expanded over time
-- Prefecture: This specifies the Japanese prefecture where each station is located. It helps in understanding the geographical distribution of stations across Japan and can be useful if routes or search algorithms are organized by regional constraints.
+- Destination_Station: This shows the end station for the journey segment listed in the row. Each segment (route between two stations) has its own entry, and the destination station here can serve as a transfer point, final stop, or a midpoint depending on the passengers’s route.
 
-- Distance from Tokyo st: This represents the distance of each station from Tokyo Station, measured in kilometers. This column is valuable for search algorithms as it can act as a heuristic measure, especially in Best First Search, to determine proximity to Tokyo or prioritize closer stations.
+- Distance_(Km): This column displays the distance in kilometers between the source and destination stations for each segment. Distance can directly influence ticket pricing and travel duration, though certain segments may vary slightly in speed or route efficiency.
 
-- Company: This indicates the company that operates each station. In Japan, different segments of the Shinkansen network are operated by different companies (e.g., JR Central). This could be relevant for financial or operational analysis, or for understanding corporate boundaries within the network.
+- Cost_(Yen): This is the fare in Japanese yen between the source and destination stations for each segment. Different trains or lines can influence the price of the fare.
+
+- Durations_(Min): This gives the travel time in minutes for each segment. Shinkansen speeds can vary between lines and services; for example, "Hayabusa" is a high-speed service on the Tohoku Shinkansen, known for its shorter travel times. Travel time in this column reflects these variations in speed and stop frequency for each segment.
+
+- Line: This column identifies the specific service or type of Shinkansen running on the Shinkansen line. For example:
+
+    - Asama: A service on the Hokuriku Shinkansen that operates between Tokyo and Nagano.
+    - Hakutaka: Another service on the Hokuriku Shinkansen, which extends beyond Nagano to Kanazawa.
+    - Hayabusa: A high-speed service on the Tohoku Shinkansen, running between Tokyo and northern destinations like Shin-Aomori.
+Each line name indicates a unique train routes, speed and destinations.
+
 
 ### 2. Code Explanation
 
