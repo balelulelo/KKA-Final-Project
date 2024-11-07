@@ -161,29 +161,72 @@ def a_star_search(graph, start, goal):
 ```    
 The `a_star_search` function uses an A* search algorithm with distance-based heuristics to prioritize routes. It uses a priority queue where each tuple includes `(heuristic distance, station, path, lines, total_distance, total_cost, total_duration, transit_count)`. The `heuristic distance` is based on the neighbor distance to prioritize paths, while `station` is the current location, `path` is the visited sequence of stations, `lines` tracks the lines taken, `total_distance` accumulates the distance, `total_cost` is the yen cost, `total_duration` tracks time, and `transit_count` records the number of line changes. If a new line is encountered, it’s added to `new_lines`, and `new_transit_count` is incremented. This function balances minimizing both distance and line changes.
 
-#### 2f. User Input and Display of Results
+#### 2f. User Input
 ```python
-def a_star(self, start, goal):
-    open_list = []
-    heapq.heappush(open_list, (0 + self.heuristics[start], start, [start]))
-    g_costs = {start: 0}
+print("\nWelcome to Shinkansen Route Planning Service! Please wait for a moment... \n")
+start_station = input("Which station are you from ?: ")
+goal_station = input("Which station you want to go to ?: ")
+print("\nCalculating Route, Distance, Cost, and Duration... \n")
 ```
-- `a_star`: Combines g_cost (cost from the start) and heuristics (estimated cost to the goal).
-- `g_costs`: tracking the cost from the start to each station.
-- `open_list`: Priority queue containing stations and their calculated `f_cost` (combined `g_cost` and `heuristic`).
-- When the goal station is found, the function returns the path, guaranteeing the shortest route due to its optimal cost evaluation.
-- Same with Best First Search, this function are not optimal because there is not cost for each route databases.
+This section of the code begins by giving the user with a message about the Shinkansen Route Planning Service. It then prompts the user for input using `input()` to collect two pieces of information: `start_station` (the station they are departing from) and `goal_station` (their intended destination). This information is essential for performing the route search, as it specifies the `start` and `end` points for each search function to process.
 
-#### 2h. How BFS Function Works
+#### 2h. How the results will be displayed
 ```python
-def bfs(self, start, goal):
-    queue = deque([(start, [start])])
-    visited = set([start])
-```
-- Searches level by level, for finding the shortest unweighted path.
-- Starts from the start station and explores each level completely before moving deeper.
-- If it finds the goal station, it returns the path.
+# Call every search method (Best, BFS, A*)
+path_best, lines_best, distance_best, cost_best, duration_best, transits_best = best_first_search(graph, start_station, goal_station)
+path_bfs, lines_bfs, distance_bfs, cost_bfs, duration_bfs, transits_bfs = bfs(graph, start_station, goal_station)
+path_a_star, lines_a_star, distance_a_star, cost_a_star, duration_a_star, transits_a_star = a_star_search(graph, start_station, goal_station)
+path_least_transits, lines_least_transits, transits_least_transits = least_transits_search(graph, start_station, goal_station)
+# Display results for Best-First Search
+print("\nResult of Best-First Search:")
+if path_best:
+    print("Route:", " -> ".join(path_best))
+    print("Lines:", " -> ".join(lines_best))
+    print("Total Distance:", f"{distance_best:.2f}", "km")
+    print("Total Cost:", f"{cost_best:.2f}", "Yen")
+    print("Total Duration:", f"{duration_best:.2f}", "minutes")
+    print("Total Transits:", transits_best)
+else:
+    print("Route not found.")
 
+# Display results for Breadth-First Search
+print("\nResult of Breadth-First Search:")
+if path_bfs:
+    print("Route:", " -> ".join(path_bfs))
+    print("Lines:", " -> ".join(lines_bfs))
+    print("Total Distance:", f"{distance_bfs:.2f}", "km")
+    print("Total Cost:", f"{cost_bfs:.2f}", "Yen")
+    print("Total Duration:", f"{duration_bfs:.2f}", "minutes")
+    print("Total Transits:", transits_bfs)
+else:
+    print("Route not found.")
+
+# Display results for A* Search
+print("\nResult of A* Search:")
+if path_a_star:
+    print("Route:", " -> ".join(path_a_star))
+    print("Lines:", " -> ".join(lines_a_star))
+    print("Total Distance:", f"{distance_a_star:.2f}", "km")
+    print("Total Cost:", f"{cost_a_star:.2f}", "Yen")
+    print("Total Duration:", f"{duration_a_star:.2f}", "minutes")
+    print("Total Transits:", transits_a_star)
+else:
+    print("Route not found.")
+
+print("\nResult with the Least amount of transits Search:")
+if path_least_transits:
+    print("Route:", " -> ".join(path_least_transits))
+    print("Lines:", " -> ".join(lines_least_transits))
+    print("Total Transits:", transits_least_transits)
+else:
+    print("Route not found.")
+
+print("\nThank you for using our service")
+print("We wish you a safe journey!")
+```
+After gathering user input and running each of the search functions (Best-First Search, BFS, A*, and Least Transits Search), the program displays the results for each search method. For each method:
+- If a route is found, it prints the `path` (sequence of stations), `lines` (sequence of lines used), `total_distance` (in kilometers), `total_cost` (in yen), `total_duration` (in minutes), and `transit_count` (number of line changes).
+- If no route is found, it outputs a message indicating that a route could not be determined.
 #### 2i. How A* Function Works
 ```python
 def a_star(self, start, goal):
