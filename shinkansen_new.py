@@ -18,8 +18,7 @@ import heapq
 from collections import deque, defaultdict
 
 # Load dataset
-df = pd.read_csv('shinkansen.csv')
-
+df = pd.read_csv('shinkansen.csv') # <-- make sure the .csv file is in the same directory as the main code
 
 # ------------------------------------------------------------------------------------
 #                                   CONSTRUCT GRAPH
