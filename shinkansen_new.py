@@ -18,7 +18,8 @@ import heapq
 from collections import deque, defaultdict
 
 # Load dataset
-df = pd.read_csv('shinkansen.csv') # <-- make sure the .csv file is in the same directory as the main code
+df = pd.read_csv('shinkansen.csv')
+
 
 # ------------------------------------------------------------------------------------
 #                                   CONSTRUCT GRAPH
@@ -29,11 +30,12 @@ graph = defaultdict(list)
 for _, row in df.iterrows():
     source = row['Source_Stations']
     destination = row['Destination_Stations']
+    line = row['Line']
     distance = row['Distance_(Km)']
     cost = row['Cost_(Yen)']
     duration = row['Durations_(Min)']
-    graph[source].append((destination, distance, cost, duration))
-    graph[destination].append((source, distance, cost, duration))  # <-- If undirected
+    graph[source].append((destination, line, distance, cost, duration))
+    graph[destination].append((source, line, distance, cost, duration))  # <-- If undirected
 
 # ------------------------------------------------------------------------------------
 #                               SEARCH ALGORITHM FUNCTIONS
@@ -41,50 +43,49 @@ for _, row in df.iterrows():
 
 # Search the route using Best-First Search
 def best_first_search(graph, start, goal):
-    queue = [(0, start, [start], 0, 0, 0)]  # (heuristic distance, station, path, total_distance, total_cost, total_duration)
+    queue = [(0, start, [start], [], 0, 0, 0)]  # (heuristic distance, station, path, lines, total_distance, total_cost, total_duration)
     visited = set()
     while queue:
-        _, current, path, total_distance, total_cost, total_duration = heapq.heappop(queue)
+        _, current, path, lines, total_distance, total_cost, total_duration = heapq.heappop(queue)
         if current == goal:
-            return path, total_distance, total_cost, total_duration
+            return path, lines, total_distance, total_cost, total_duration
         if current not in visited:
             visited.add(current)
-            for neighbor, dist, cost, dur in graph[current]:
+            for neighbor, line, dist, cost, dur in graph[current]:
                 if neighbor not in visited:
-                    heapq.heappush(queue, (dist, neighbor, path + [neighbor], total_distance + dist, total_cost + cost, total_duration + dur))
-    return None, None, None, None
+                    heapq.heappush(queue, (dist, neighbor, path + [neighbor], lines + [line], total_distance + dist, total_cost + cost, total_duration + dur))
+    return None, None, None, None, None
 
 # Search the route using Breadth-First Search
 def bfs(graph, start, goal):
-    queue = deque([(start, [start], 0, 0, 0)])  # (station, path, total_distance, total_cost, total_duration)
+    queue = deque([(start, [start], [], 0, 0, 0)])  # (station, path, lines, total_distance, total_cost, total_duration)
     visited = set([start])
     while queue:
-        current, path, total_distance, total_cost, total_duration = queue.popleft()
+        current, path, lines, total_distance, total_cost, total_duration = queue.popleft()
         if current == goal:
-            return path, total_distance, total_cost, total_duration
-        for neighbor, dist, cost, dur in graph[current]:
+            return path, lines, total_distance, total_cost, total_duration
+        for neighbor, line, dist, cost, dur in graph[current]:
             if neighbor not in visited:
                 visited.add(neighbor)
-                queue.append((neighbor, path + [neighbor], total_distance + dist, total_cost + cost, total_duration + dur))
-    return None, None, None, None
+                queue.append((neighbor, path + [neighbor], lines + [line], total_distance + dist, total_cost + cost, total_duration + dur))
+    return None, None, None, None, None
 
 # Search the route using A* Search
 def a_star_search(graph, start, goal):
-    queue = [(0, start, [start], 0, 0, 0)]  # (heuristic distance, station, path, total_distance, total_cost, total_duration)
+    queue = [(0, start, [start], [], 0, 0, 0)]  # (heuristic distance, station, path, lines, total_distance, total_cost, total_duration)
     visited = set()
     while queue:
-        _, current, path, total_distance, total_cost, total_duration = heapq.heappop(queue)
+        _, current, path, lines, total_distance, total_cost, total_duration = heapq.heappop(queue)
         if current == goal:
-            return path, total_distance, total_cost, total_duration
+            return path, lines, total_distance, total_cost, total_duration
         if current not in visited:
             visited.add(current)
-            for neighbor, dist, cost, dur in graph[current]:
+            for neighbor, line, dist, cost, dur in graph[current]:
                 if neighbor not in visited:
                     heuristic = dist  
                     # Distance acts as the Heuristic value
-
-                    heapq.heappush(queue, (total_distance + heuristic, neighbor, path + [neighbor], total_distance + dist, total_cost + cost, total_duration + dur))
-    return None, None, None, None
+                    heapq.heappush(queue, (total_distance + heuristic, neighbor, path + [neighbor], lines + [line], total_distance + dist, total_cost + cost, total_duration + dur))
+    return None, None, None, None, None
 
 # ------------------------------------------------------------------------------------
 #                                  INPUT FROM USERS 
@@ -101,35 +102,38 @@ print("\nCalculating Route, Distance, Cost, and Duration... \n")
 # ------------------------------------------------------------------------------------
 
 # Call every search method (Best, BFS, A*)
-path_best, distance_best, cost_best, duration_best = best_first_search(graph, start_station, goal_station)
-path_bfs, distance_bfs, cost_bfs, duration_bfs = bfs(graph, start_station, goal_station)
-path_a_star, distance_a_star, cost_a_star, duration_a_star = a_star_search(graph, start_station, goal_station)
+path_best, lines_best, distance_best, cost_best, duration_best = best_first_search(graph, start_station, goal_station)
+path_bfs, lines_bfs, distance_bfs, cost_bfs, duration_bfs = bfs(graph, start_station, goal_station)
+path_a_star, lines_a_star, distance_a_star, cost_a_star, duration_a_star = a_star_search(graph, start_station, goal_station)
 
 # Cetak hasil pencarian
 print("\nResult of Best-First Search:")
 if path_best:
     print("Route:", " -> ".join(path_best))
-    print("Total Distance:", f"{distance_bfs:.2f}", "km")
-    print("Total Cost:", cost_best, "Yen")
-    print("Total Duration:", duration_best, "minutes")
+    print("Lines:", " -> ".join(lines_best))
+    print("Total Distance:", f"{distance_best:.2f}", "km")
+    print("Total Cost:", f"{cost_best:.2f}", "Yen")
+    print("Total Duration:", f"{duration_best:.2f}", "minutes")
 else:
     print("Route not found.")
 
 print("\nResult of Breadth-First Search:")
 if path_bfs:
     print("Route:", " -> ".join(path_bfs))
+    print("Lines:", " -> ".join(lines_bfs))
     print("Total Distance:", f"{distance_bfs:.2f}", "km")
-    print("Total Cost:", cost_bfs, "Yen")
-    print("Total Duration:", duration_bfs, "minutes")
+    print("Total Cost:", f"{cost_bfs:.2f}", "Yen")
+    print("Total Duration:", f"{duration_bfs:.2f}", "minutes")
 else:
     print("Route not found.")
 
 print("\nResult of A* Search:")
 if path_a_star:
     print("Route:", " -> ".join(path_a_star))
+    print("Lines:", " -> ".join(lines_a_star))
     print("Total Distance:", f"{distance_a_star:.2f}", "km")
-    print("Total Cost:", cost_a_star, "Yen")
-    print("Total Duration:", duration_a_star, "minutes")
+    print("Total Cost:", f"{cost_a_star:.2f}", "Yen")
+    print("Total Duration:", f"{duration_a_star:.2f}", "minutes")
 else:
     print("Route not found.")
 
