@@ -59,7 +59,7 @@ for _, row in df.iterrows():
 ```
 The code begins by loading data from `shinkansen.csv`, a dataset containing details of railway routes. It then constructs a graph using Python’s `defaultdict` from the `collections` module, which stores lists of connected stations and associated travel information. For each row in the dataset, the code reads the `source` and `destination` stations, `line` name, `distance` (in kilometers), `cost` (in yen), and `duration` (in minutes) of travel. Each source station is mapped to its destination with all route details in a tuple, and because the graph is undirected, each route is added in both directions: from the source to the destination and from the destination back to the source.
 
-#### 2c. Function to Add an Edge
+#### 2b. Least Transit Search
 ```python
 def add_edge(self, start, end, cost):
     if start not in self.graph:
@@ -97,19 +97,28 @@ def best_first_search(graph, start, goal):
 ```
 In the best_first_search function, a priority queue `queue` is used to implement the search, where each entry is a tuple of the format `(heuristic distance, station, path, lines, total_distance, total_cost, total_duration, transit_count)`. The `heuristic distance` helps prioritize stations closer to the goal. `station` is the current location, `path` is the sequence of stations visited, `lines` is the list of lines taken, `total_distance` is the cumulative distance, `total_cost` is the cumulative yen cost, `total_duration` is the travel time, and `transit_count` keeps track of line changes. For each neighbor, if the line is new, it’s added to `new_lines`, and `new_transit_count` is incremented if there’s a previous line. The function returns the optimal path with details if the goal is reached.
 
-#### 2e. How Best-First Search Works
+#### 2d. Breadth First Search
 ```python
-def best_first_search(self, start, goal):
-    open_list = []
-    heapq.heappush(open_list, (self.heuristics[start], start))
-    closed_list = set()
-    path = []
+def bfs(graph, start, goal):
+    queue = deque([(start, [start], [], 0, 0, 0, 0)])  # (station, path, lines, total_distance, total_cost, total_duration, transit_count)
+    visited = set([start])
+    while queue:
+        current, path, lines, total_distance, total_cost, total_duration, transit_count = queue.popleft()
+        if current == goal:
+            return path, lines, total_distance, total_cost, total_duration, transit_count
+        for neighbor, line, dist, cost, dur in graph[current]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                new_transit_count = transit_count
+                new_lines = lines.copy()
+                # Only add line if it's different from the previous line
+                if not lines or lines[-1] != line:
+                    new_lines.append(line)
+                    new_transit_count += 1 if lines else 0  # Count transit if there's a previous line
+                queue.append((neighbor, path + [neighbor], new_lines, total_distance + dist, total_cost + cost, total_duration + dur, new_transit_count))
+    return None, None, None, None, None, None
 ```
-- `best_first_search`: Uses a priority queue (heap) to explore nodes with the smallest heuristic values first.
-- `open_list`: Holds stations to explore, prioritized by heuristic values.
-- `closed_list`: Tracks visited stations to prevent re-exploration.
-- If the current station matches the goal, the function returns the path.
-Otherwise, it examines neighboring stations and adds them to `open_list` if they aren’t in `closed_list`.
+The `bfs` function uses a queue to explore paths from the starting station to the destination, focusing on finding the shortest number of steps. Each element in the queue is a tuple of `(station, path, lines, total_distance, total_cost, total_duration, transit_count)`. `station` is the current station, `path` is the list of stations in the route, `lines` contains the lines used, `total_distance` accumulates the distance traveled, `total_cost` stores the total yen cost, `total_duration` tracks the time in minutes, and `transit_count` records line changes. When a line change is encountered, it’s added to `new_lines`, and `new_transit_count` is updated. This search is efficient for finding the shortest sequence of stations.
 
 #### 2f. How Breadth-First Search (BFS) Works (Not Optimal Yet)
 ```python
