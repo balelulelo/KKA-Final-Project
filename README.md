@@ -57,7 +57,7 @@ for _, row in df.iterrows():
     graph[source].append((destination, line, distance, cost, duration))
     graph[destination].append((source, line, distance, cost, duration))
 ```
-The code begins by loading a dataset (shinkansen.csv) and constructing a graph of the railway network using a defaultdict. Each station (source) is connected to a destination, along with route details such as line, distance, cost, and duration. The graph is built to be undirected, so each route is bi-directional. Each station in the graph thus holds a list of tuples that store all available routes to neighboring stations
+The code begins by loading data from `shinkansen.csv`, a dataset containing details of railway routes. It then constructs a graph using Python’s `defaultdict` from the `collections` module, which stores lists of connected stations and associated travel information. For each row in the dataset, the code reads the `source` and `destination` stations, `line` name, `distance` (in kilometers), `cost` (in yen), and `duration` (in minutes) of travel. Each source station is mapped to its destination with all route details in a tuple, and because the graph is undirected, each route is added in both directions: from the source to the destination and from the destination back to the source.
 
 #### 2c. Function to Add an Edge
 ```python
