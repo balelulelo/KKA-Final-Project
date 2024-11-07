@@ -39,9 +39,16 @@ This dataset provides comprehensive information about the Shinkansen high-speed 
 #### 2a. Calling All Libraries
 
 ```python
-import pandas as pd
-import heapq
-from collections import deque
+graph = defaultdict(list)
+for _, row in df.iterrows():
+    source = row['Source_Stations']
+    destination = row['Destination_Stations']
+    line = row['Line']
+    distance = row['Distance_(Km)']
+    cost = row['Cost_(Yen)']
+    duration = row['Durations_(Min)']
+    graph[source].append((destination, line, distance, cost, duration))
+    graph[destination].append((source, line, distance, cost, duration))  # <-- If undirected
 ```
 - `pandas`: Used to handle CSV data for loading from a file.
 - `heapq`: Provides priority queue functionality essential for the `Best-First Search` and `A* Search algorithms`.
