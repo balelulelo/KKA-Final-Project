@@ -161,15 +161,12 @@ else:
 # Run each search with timing
 print("\nCalculating routes based on your preference...\n")
 
-(best_path, best_lines, best_dist, best_cost, best_dur, best_transits), best_time = timed_search(best_first_search, graph, start_station, goal_station)
-(bfs_path, bfs_lines, bfs_dist, bfs_cost, bfs_dur, bfs_transits), bfs_time = timed_search(bfs, graph, start_station, goal_station)
 (dijkstra_path, dijkstra_lines, dijkstra_dist, dijkstra_cost, dijkstra_dur, dijkstra_transits), dijkstra_time = timed_search(dijkstra_search, graph, start_station, goal_station)
 (transits_path, transits_lines, transits_transits), transits_time = timed_search(least_transits_search, graph, start_station, goal_station)
 
 # Collect all routes in a list
 routes = [
-    (best_path, best_lines, best_dist, best_cost, best_dur, best_transits),
-    (bfs_path, bfs_lines, bfs_dist, bfs_cost, bfs_dur, bfs_transits),
+    (transits_lines),
     (dijkstra_path, dijkstra_lines, dijkstra_dist, dijkstra_cost, dijkstra_dur, dijkstra_transits),
 ]
 
