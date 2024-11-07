@@ -36,8 +36,7 @@ This dataset provides comprehensive information about the Shinkansen high-speed 
 
 ### 2. Code Explanation
 
-#### 2a. Calling All Libraries and Datasets
-
+#### 2a. Graph Initialization
 ```python
 import pandas as pd
 import heapq
@@ -45,21 +44,20 @@ from collections import deque, defaultdict
 
 # Load dataset
 df = pd.read_csv('shinkansen.csv')
-```
-- `pandas`: Used to handle CSV data for loading from a file.
-- `heapq`: Provides priority queue functionality essential for the `Best-First Search` and `A* Search algorithms`.
-- `deque`: Used for efficiently implementing the `queue structure` required for `Breadth-First Search`.
 
-#### 2b. Graph Initialization
-```python
-class Graph:
-    def __init__(self):
-        self.graph = {}
-        self.heuristics = {}
+# Create a graph from the dataset
+graph = defaultdict(list)
+for _, row in df.iterrows():
+    source = row['Source_Stations']
+    destination = row['Destination_Stations']
+    line = row['Line']
+    distance = row['Distance_(Km)']
+    cost = row['Cost_(Yen)']
+    duration = row['Durations_(Min)']
+    graph[source].append((destination, line, distance, cost, duration))
+    graph[destination].append((source, line, distance, cost, duration))
 ```
-- `Graph`: A class representing the railway network.
-- `graph`: store each station and its connections with other stations.
-- `heuristics`: storing heuristic values for each station, such as its distance from Tokyo.
+The code begins by loading a dataset (shinkansen.csv) and constructing a graph of the railway network using a defaultdict. Each station (source) is connected to a destination, along with route details such as line, distance, cost, and duration. The graph is built to be undirected, so each route is bi-directional. Each station in the graph thus holds a list of tuples that store all available routes to neighboring stations
 
 #### 2c. Function to Add an Edge
 ```python
