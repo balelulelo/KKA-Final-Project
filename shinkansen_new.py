@@ -92,7 +92,7 @@ def bfs(graph, start, goal):
     return None, None, None, None, None, None
 
 # Search the route using A* Search with transit counting
-def a_star_search(graph, start, goal):
+def dijkstra_search(graph, start, goal):
     queue = [(0, start, [start], [], 0, 0, 0, 0)]  # (heuristic distance, station, path, lines, total_distance, total_cost, total_duration, transit_count)
     visited = set()
     while queue:
@@ -103,7 +103,7 @@ def a_star_search(graph, start, goal):
             visited.add(current)
             for neighbor, line, dist, cost, dur in graph[current]:
                 if neighbor not in visited:
-                    heuristic = dist  # Distance as heuristic
+                    heuristic = 0 # Distance as heuristic
                     new_transit_count = transit_count
                     new_lines = lines.copy()
                     # Only add line if it's different from the previous line
@@ -129,7 +129,7 @@ print("\nCalculating Route, Distance, Cost, and Duration... \n")
 # Call every search method (Best, BFS, A*)
 path_best, lines_best, distance_best, cost_best, duration_best, transits_best = best_first_search(graph, start_station, goal_station)
 path_bfs, lines_bfs, distance_bfs, cost_bfs, duration_bfs, transits_bfs = bfs(graph, start_station, goal_station)
-path_a_star, lines_a_star, distance_a_star, cost_a_star, duration_a_star, transits_a_star = a_star_search(graph, start_station, goal_station)
+path_dijkstra, lines_dijkstra, distance_dijkstra, cost_dijkstra, duration_dijkstra, transits_dijkstra = dijkstra_search(graph, start_station, goal_station)
 path_least_transits, lines_least_transits, transits_least_transits = least_transits_search(graph, start_station, goal_station)
 # Display results for Best-First Search
 print("\nResult of Best-First Search:")
@@ -155,15 +155,16 @@ if path_bfs:
 else:
     print("Route not found.")
 
-# Display results for A* Search
-print("\nResult of A* Search:")
-if path_a_star:
-    print("Route:", " -> ".join(path_a_star))
-    print("Lines:", " -> ".join(lines_a_star))
-    print("Total Distance:", f"{distance_a_star:.2f}", "km")
-    print("Total Cost:", f"{cost_a_star:.2f}", "Yen")
-    print("Total Duration:", f"{duration_a_star:.2f}", "minutes")
-    print("Total Transits:", transits_a_star)
+# Display results for A* Search. 
+# it's dijkstra now, we just set the heuristic to 0.
+print("\nResult of Dijkstra Search:")
+if path_dijkstra:
+    print("Route:", " -> ".join(path_dijkstra))
+    print("Lines:", " -> ".join(lines_dijkstra))
+    print("Total Distance:", f"{distance_dijkstra:.2f}", "km")
+    print("Total Cost:", f"{cost_dijkstra:.2f}", "Yen")
+    print("Total Duration:", f"{duration_dijkstra:.2f}", "minutes")
+    print("Total Transits:", transits_dijkstra)
 else:
     print("Route not found.")
 
